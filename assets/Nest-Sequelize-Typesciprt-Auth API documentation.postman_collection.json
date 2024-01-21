@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "377152fe-101c-4233-af00-2a46b7f057ca",
+		"name": "Nest-Sequelize-Typesciprt-Auth API documentation",
+		"description": "**ฟังก์ชันพื้นฐานในระบบ**\n\n- **Auth (การตรวจสอบสิทธิ์)**\n    - `POST Register User` - ลงทะเบียนผู้ใช้\n    - `POST Login User` - เข้าสู่ระบบผู้ใช้\n    - `POST Refresh` - รีเฟรชโทเค็น\n- **Admin (ผู้ดูแลระบบ)**\n    - `GET Get user all` - ดึงข้อมูลผู้ใช้ทั้งหมด\n- **Me (ฉัน)**\n    - `GET Get Me` - ดึงข้อมูลของฉัน\n\n**ขั้นตอนการทดสอบ**\n\n- Post Register User ให้ใส่ email และ password ที่ต้องการ\n    - ห้ามใช้ Email ซ้ำ\n    - ต้องใส่ Password ไม่น้อยกว่า 6 ตัว\n- Post Login User ลองใส่ Email เพื่อใช้ Login\n    - ค่าที่ได้กลับมาจะได้ access_token กับ refresh_token\n- Post Refresh คือใช้ตอนที่ access_token ของ Client หมด ให้ส่งค่า refresh_token มาเพื่อรับ access_token ใหม่\n    - ค่าที่ได้กลับมาคือ access_token\n- Get User All ฟังก์ชันนี้มีไว้ให้ทดสอบการทำงานของ Role Admin ว่าหากไม่ใช่ Admin จะไม่สามารถเรียกดูข้อมูลได้\n    \n    - Login email ของ admin ใข้ [admin@example.com](https://mailto:admin@example.com) ส่วน password ใช้ SEED_PASSWORD ที่อยู่ในไฟล์ .env ของ Project\n    - ต้องนำ access_token หลังจากที่ login มาใส่ที่ Tab-> Authorization\n        \n        - เลือก Type เป็น Bearer Token\n        - นำ access_token ที่ได้จากการ Login มาใส่ในช่อง Token\n            \n    - กด Send เพื่อดูข้อมูล\n        \n- Get Me ฟังก์ชันนี้มีไว้ให้ Client ดึงข้อมูลของ User โดยใช้วิธีการใช้ access_token เหมือนกัน\n    \n    - ข้อมูลที่ได้คือ ข้อมูลของ user ที่ login",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12031014"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user6@example.com\",\n    \"password\": \"mypassword6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"kokdev\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJzdWIiOjIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzA1ODM4MjI1LCJleHAiOjE3MDU4NDU0MjV9.R6hG8hkGJxxMZBLd7yb_zdJQwCFc89dLq4Y3ThQjlJE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Get user all",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJzdWIiOjIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzA1ODI2MjEyLCJleHAiOjE3MDU4Mjk4MTJ9.XIRvRclT-0lyS4yQhVePzo4nUr4jm_S9gU1MxWIu544",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:3000/admin/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"admin",
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Me",
+			"item": [
+				{
+					"name": "Get Me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJzdWIiOjIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzA1ODI5MDEwLCJleHAiOjE3MDU4MzI2MTB9.ZYubIBiyiDSWicw9wlAq47MvZOZMrzk4hyGWRiShgS8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "X-API-Key",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://farming-simulator.pstmn.io"
+		}
+	]
+}
