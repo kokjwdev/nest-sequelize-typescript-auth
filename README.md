@@ -1,4 +1,4 @@
-# ชื่อโปรเจกต์
+# Nest Sequelize Typescript Auth
 
 nest-sequelize-typescript-auth
 
